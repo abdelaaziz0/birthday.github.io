@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Birthday, FADWA!</title>
+  <!-- Using a fun Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" />
+  <style>
+    /* GLOBAL RESET & BACKGROUND */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden; /* Hide overflow from balloons/confetti */
+      background: linear-gradient(120deg, #ffecd2, #fcb69f);
+      font-family: 'Lobster', cursive;
+      position: relative;
+    }
+
+    /* CONTENT CONTAINER */
+    .content-container {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 30px;
+      text-align: center;
+      z-index: 2; /* So it appears above confetti */
+    }
+
+    /* MAIN TITLE */
+    h1 {
+      font-size: 3.5rem;
+      margin-top: 50px;
+      margin-bottom: 20px;
+      animation: glow 1.8s ease-in-out infinite alternate;
+      color: #f84f6e;
+    }
+    @keyframes glow {
+      0% {
+        text-shadow: 0 0 10px #ffaec9;
+      }
+      100% {
+        text-shadow: 0 0 25px #ffaec9;
+      }
+    }
+
+    /* REFINED CELEBRATE BUTTON */
+    #celebrateBtn {
+      font-size: 1.2rem;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: linear-gradient(45deg, #f84f6e, #fc7b9a);
+      color: #fff;
+      box-shadow: 0 4px 0 #c73756; /* Subtle 'pressed' shadow */
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 20px;
+    }
+    #celebrateBtn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 0 #c73756;
+    }
+
+    /* HIDDEN MESSAGE */
+    #hiddenMessage {
+      margin-top: 30px;
+      font-size: 1.8rem;
+      color: #8b0000;
+      display: none;
+      animation: fadeIn 1.5s forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* BALLOONS */
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 60px;
+      height: 80px;
+      background-color: #ff5cad;
+      border-radius: 60px 60px 40px 40px; /* balloon shape */
+      box-shadow: inset -10px -10px rgba(0, 0, 0, 0.1);
+      animation: float 6s ease-in-out infinite;
+      z-index: 1;
+    }
+    .balloon::before {
+      content: "";
+      position: absolute;
+      top: 80px;
+      left: 25px;
+      width: 10px;
+      height: 20px;
+      background: inherit; /* same color as balloon */
+      border-radius: 10px;
+    }
+    .balloon::after {
+      content: "";
+      position: absolute;
+      top: 95px;
+      left: 28px;
+      width: 2px;
+      height: 20px;
+      background: #999;
+    }
+    @keyframes float {
+      0% {
+        transform: translateX(0) translateY(0);
+      }
+      50% {
+        transform: translateX(20px) translateY(-20px);
+      }
+      100% {
+        transform: translateX(-20px) translateY(-100vh);
+      }
+    }
+
+    /* DIFFERENT BALLOON COLORS & SPEEDS */
+    .balloon:nth-child(1) {
+      left: 10%;
+      animation-duration: 5s;
+      background-color: #f84f6e; /* Pinkish-red */
+    }
+    .balloon:nth-child(2) {
+      left: 25%;
+      animation-duration: 6s;
+      background-color: #ffa500; /* Orange */
+    }
+    .balloon:nth-child(3) {
+      left: 40%;
+      animation-duration: 7s;
+      background-color: #ffd700; /* Gold */
+    }
+    .balloon:nth-child(4) {
+      left: 60%;
+      animation-duration: 6.5s;
+      background-color: #87cefa; /* Light Blue */
+    }
+    .balloon:nth-child(5) {
+      left: 75%;
+      animation-duration: 5.5s;
+      background-color: #90ee90; /* Light Green */
+    }
+    .balloon:nth-child(6) {
+      left: 90%;
+      animation-duration: 7s;
+      background-color: #fa8072; /* Salmon */
+    }
+
+    /* CONFETTI */
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 3;
+    }
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: red; /* Will be overridden with random colors */
+      opacity: 0.9;
+      animation: fall linear forwards;
+    }
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+      }
+      100% {
+        transform: translateY(110vh) rotate(720deg);
+      }
+    }
+
+    /* SECOND BUTTON (HIDDEN AT FIRST) */
+    #surpriseBtn {
+      display: none;
+      font-size: 1.2rem;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: linear-gradient(45deg, #ff895f, #ffc993);
+      color: #fff;
+      box-shadow: 0 4px 0 #d76c41;
+      margin-top: 30px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    #surpriseBtn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 0 #d76c41;
+    }
+
+    /* CSS CAKE (NO EXTERNAL IMAGE) */
+    #cake {
+      margin: 30px auto;
+      width: 150px;
+      height: 150px;
+      position: relative;
+      display: none; /* hidden initially */
+      animation: fadeIn 1s forwards;
+    }
+    /* Plate */
+    #cake .plate {
+      width: 140px;
+      height: 20px;
+      background: #C0C0C0; /* silver color */
+      border-radius: 10px;
+      position: absolute;
+      bottom: 0;
+      left: 5px;
+    }
+    /* Bottom cake layer */
+    #cake .bottom-layer {
+      width: 100px;
+      height: 40px;
+      background: #d2691e; /* chocolate color */
+      position: absolute;
+      bottom: 20px;
+      left: 25px;
+      border-radius: 5px 5px 0 0;
+    }
+    /* Frosting top layer */
+    #cake .frosting {
+      width: 100px;
+      height: 20px;
+      background: pink;
+      position: absolute;
+      bottom: 60px;
+      left: 25px;
+      border-radius: 5px 5px 10px 10px;
+    }
+    /* Candle */
+    #cake .candle {
+      width: 4px;
+      height: 30px;
+      background: yellow;
+      position: absolute;
+      bottom: 80px;
+      left: 73px;
+      border-radius: 2px;
+    }
+    #cake .candle::after {
+      content: "";
+      position: absolute;
+      top: -8px;
+      left: -2px;
+      width: 8px;
+      height: 8px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    /* INTERNSHIP LINK (HIDDEN INITIALLY) */
+    #internshipLink {
+      margin-top: 20px;
+      font-size: 1.4rem;
+      display: none;
+    }
+    #internshipLink a {
+      color: blue;
+      text-decoration: underline;
+    }
+
+    /* FADE IN ANIMATION FOR CAKE */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- OPTIONAL AUDIO (place your own MP3 file in the same folder and rename if needed) -->
+  <audio id="birthdayMusic" src="birthdayMusic.mp3" preload="auto"></audio>
+
+  <!-- FLOATING BALLOONS -->
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+  <div class="balloon"></div>
+
+  <!-- MAIN CONTENT -->
+  <div class="content-container">
+    <!-- Hard-coded name -->
+    <h1 id="birthdayHeading">Happy Birthday, FADWA!</h1>
+
+    <button id="celebrateBtn">Celebrate</button>
+    <div id="hiddenMessage">Wishing you a day filled with joy and surprises, FADWA!</div>
+
+    <!-- Second button for extra surprise (hidden initially) -->
+    <button id="surpriseBtn">Another Surprise?</button>
+
+    <!-- Surprise cake (using pure CSS) -->
+    <div id="cake">
+      <div class="plate"></div>
+      <div class="bottom-layer"></div>
+      <div class="frosting"></div>
+      <div class="candle"></div>
+    </div>
+
+    <!-- Internship link (hidden initially) -->
+    <div id="internshipLink">
+      Time to plan your future! Check out internships here:
+      <a href="https://www.linkedin.com/jobs/internships/" target="_blank">LinkedIn Internships</a>
+    </div>
+  </div>
+
+  <script>
+    const celebrateBtn = document.getElementById("celebrateBtn");
+    const hiddenMessage = document.getElementById("hiddenMessage");
+    const birthdayMusic = document.getElementById("birthdayMusic");
+    const surpriseBtn = document.getElementById("surpriseBtn");
+    const cake = document.getElementById("cake");
+    const internshipLink = document.getElementById("internshipLink");
+
+    // Initially hide certain elements
+    hiddenMessage.style.display = "none";
+    surpriseBtn.style.display = "none";
+    cake.style.display = "none";
+    internshipLink.style.display = "none";
+
+    // 1) On "Celebrate" button click
+    celebrateBtn.addEventListener("click", () => {
+      // Show hidden message
+      hiddenMessage.style.display = "block";
+
+      // Play music (if an MP3 file is provided)
+      if (birthdayMusic) {
+        birthdayMusic.play();
+      }
+
+      // Launch confetti
+      launchConfetti();
+
+      // Show the "Another Surprise?" button after a moment
+      setTimeout(() => {
+        surpriseBtn.style.display = "inline-block";
+      }, 1000);
+    });
+
+    // 2) On "Another Surprise?" => show the cake, then after 5s => hide it and show internship link
+    surpriseBtn.addEventListener("click", () => {
+      cake.style.display = "block";
+
+      // Hide the second button to prevent repeated clicks
+      surpriseBtn.style.display = "none";
+
+      // After 5 seconds, hide the cake and show the internship link
+      setTimeout(() => {
+        cake.style.display = "none";
+        internshipLink.style.display = "block";
+      }, 5000);
+    });
+
+    // CONFETTI FUNCTION
+    function launchConfetti() {
+      const confettiContainer = document.createElement("div");
+      confettiContainer.classList.add("confetti-container");
+      document.body.appendChild(confettiContainer);
+
+      const colors = ["#f84f6e", "#ffa500", "#ffd700", "#87cefa", "#90ee90", "#fa8072", "#fff", "#ff69b4"];
+      const numOfConfetti = 60; // Adjust for more or fewer pieces
+
+      for (let i = 0; i < numOfConfetti; i++) {
+        const confettiPiece = document.createElement("div");
+        confettiPiece.classList.add("confetti-piece");
+        // Random color
+        confettiPiece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+        // Random x start (0% to 100%)
+        const startX = Math.random() * 100;
+        // Random size
+        const size = 8 + Math.random() * 6; // 8 to 14px
+        confettiPiece.style.width = `${size}px`;
+        confettiPiece.style.height = `${size}px`;
+        confettiPiece.style.left = `${startX}vw`;
+
+        // Random delay so confetti doesn’t all fall at once
+        const delay = Math.random() * 1;
+        confettiPiece.style.animationDelay = `${delay}s`;
+
+        // Random fall duration between 2-4 seconds
+        const duration = 2 + Math.random() * 2;
+        confettiPiece.style.animationDuration = `${duration}s`;
+
+        confettiContainer.appendChild(confettiPiece);
+      }
+
+      // Remove confetti after 5 seconds
+      setTimeout(() => {
+        confettiContainer.remove();
+      }, 5000);
+    }
+  </script>
+</body>
+</html>
