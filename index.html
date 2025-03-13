@@ -3,10 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <title>Happy Birthday, FADWA!</title>
-  <!-- Using a fun Google Font -->
+
+  <!-- Festive Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" />
+
+  <!-- Serious Mode Fonts: Orbitron (futuristic headings), Poppins (clean body) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins&display=swap" />
+
   <style>
-    /* GLOBAL RESET & BACKGROUND */
+    /* GLOBAL RESET & TRANSITIONS */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -15,40 +20,90 @@
     body {
       width: 100vw;
       height: 100vh;
-      overflow: hidden; /* Hide overflow from balloons/confetti */
-      background: linear-gradient(120deg, #ffecd2, #fcb69f);
-      font-family: 'Lobster', cursive;
+      overflow: hidden;
+      /* SALMON-PINK GRADIENT FOR BIRTHDAY MODE */
+      background: linear-gradient(120deg, #fcb69f, #ffecd2);
+      font-family: 'Lobster', cursive; /* Festive default font */
       position: relative;
+      transition: background 1s, color 1s, font-family 1s;
     }
 
-    /* CONTENT CONTAINER */
+    /*************************************************************
+     ********************* SERIOUS MODE **************************
+     *************************************************************/
+    .serious-mode {
+      font-family: 'Poppins', sans-serif !important;
+      color: #fff !important;
+      background: #1e1e1e !important; /* Dark background */
+    }
+
+    /* Hide all festive items in serious mode */
+    .serious-mode .sparkle,
+    .serious-mode .balloon,
+    .serious-mode #birthdayHeading,
+    .serious-mode #celebrateBtn,
+    .serious-mode #hiddenMessage,
+    .serious-mode #surpriseBtn,
+    .serious-mode #cake {
+      display: none !important;
+    }
+
+    /* Show the waves in serious mode */
+    .serious-mode .wave1,
+    .serious-mode .wave2 {
+      display: block !important;
+    }
+
+    /* Show the serious container in serious mode */
+    .serious-mode #seriousContainer {
+      display: block !important;
+      animation: slideInUp 1.2s ease forwards;
+    }
+
+    /********** FESTIVE BACKGROUND SPARKLES **********/
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: radial-gradient(circle, #fff 0%, rgba(255,255,255,0) 70%);
+      border-radius: 50%;
+      animation: sparkleMove 6s linear infinite;
+      opacity: 0.8;
+    }
+    @keyframes sparkleMove {
+      0% { transform: translateY(0) scale(0.5); opacity: 0.8; }
+      50% { transform: translateY(-50px) scale(1); opacity: 1; }
+      100% { transform: translateY(150vh) scale(0.4); opacity: 0.3; }
+    }
+
+    /********** CONTENT CONTAINER (FESTIVE) **********/
     .content-container {
       position: relative;
       max-width: 800px;
       margin: 0 auto;
       padding: 30px;
       text-align: center;
-      z-index: 2; /* So it appears above confetti */
+      z-index: 2; /* Above sparkles/confetti */
     }
 
-    /* MAIN TITLE */
-    h1 {
+    /********** FESTIVE HEADING (Animated Gradient Text) **********/
+    #birthdayHeading {
       font-size: 3.5rem;
       margin-top: 50px;
       margin-bottom: 20px;
-      animation: glow 1.8s ease-in-out infinite alternate;
-      color: #f84f6e;
+      background: linear-gradient(45deg, #f84f6e, #9d50bb, #f84f6e);
+      background-size: 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientText 4s ease-in-out infinite;
     }
-    @keyframes glow {
-      0% {
-        text-shadow: 0 0 10px #ffaec9;
-      }
-      100% {
-        text-shadow: 0 0 25px #ffaec9;
-      }
+    @keyframes gradientText {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
-    /* REFINED CELEBRATE BUTTON */
+    /********** CELEBRATE BUTTON **********/
     #celebrateBtn {
       font-size: 1.2rem;
       padding: 15px 30px;
@@ -57,7 +112,7 @@
       cursor: pointer;
       background: linear-gradient(45deg, #f84f6e, #fc7b9a);
       color: #fff;
-      box-shadow: 0 4px 0 #c73756; /* Subtle 'pressed' shadow */
+      box-shadow: 0 4px 0 #c73756;
       transition: transform 0.2s, box-shadow 0.2s;
       margin-top: 20px;
     }
@@ -66,7 +121,7 @@
       box-shadow: 0 6px 0 #c73756;
     }
 
-    /* HIDDEN MESSAGE */
+    /********** BIRTHDAY MESSAGE **********/
     #hiddenMessage {
       margin-top: 30px;
       font-size: 1.8rem;
@@ -76,17 +131,17 @@
     }
     @keyframes fadeIn {
       from { opacity: 0; }
-      to { opacity: 1; }
+      to   { opacity: 1; }
     }
 
-    /* BALLOONS */
+    /********** BALLOONS (FESTIVE) **********/
     .balloon {
       position: absolute;
       bottom: -150px;
       width: 60px;
       height: 80px;
       background-color: #ff5cad;
-      border-radius: 60px 60px 40px 40px; /* balloon shape */
+      border-radius: 60px 60px 40px 40px;
       box-shadow: inset -10px -10px rgba(0, 0, 0, 0.1);
       animation: float 6s ease-in-out infinite;
       z-index: 1;
@@ -98,7 +153,7 @@
       left: 25px;
       width: 10px;
       height: 20px;
-      background: inherit; /* same color as balloon */
+      background: inherit;
       border-radius: 10px;
     }
     .balloon::after {
@@ -111,54 +166,22 @@
       background: #999;
     }
     @keyframes float {
-      0% {
-        transform: translateX(0) translateY(0);
-      }
-      50% {
-        transform: translateX(20px) translateY(-20px);
-      }
-      100% {
-        transform: translateX(-20px) translateY(-100vh);
-      }
+      0%   { transform: translateX(0) translateY(0); }
+      50%  { transform: translateX(20px) translateY(-20px); }
+      100% { transform: translateX(-20px) translateY(-100vh); }
     }
+    /* Different balloon colors / speeds */
+    .balloon:nth-child(1) { left: 10%;  animation-duration: 5s;   background-color: #f84f6e; }
+    .balloon:nth-child(2) { left: 25%;  animation-duration: 6s;   background-color: #ffa500; }
+    .balloon:nth-child(3) { left: 40%;  animation-duration: 7s;   background-color: #ffd700; }
+    .balloon:nth-child(4) { left: 60%;  animation-duration: 6.5s; background-color: #87cefa; }
+    .balloon:nth-child(5) { left: 75%;  animation-duration: 5.5s; background-color: #90ee90; }
+    .balloon:nth-child(6) { left: 90%;  animation-duration: 7s;   background-color: #fa8072; }
 
-    /* DIFFERENT BALLOON COLORS & SPEEDS */
-    .balloon:nth-child(1) {
-      left: 10%;
-      animation-duration: 5s;
-      background-color: #f84f6e; /* Pinkish-red */
-    }
-    .balloon:nth-child(2) {
-      left: 25%;
-      animation-duration: 6s;
-      background-color: #ffa500; /* Orange */
-    }
-    .balloon:nth-child(3) {
-      left: 40%;
-      animation-duration: 7s;
-      background-color: #ffd700; /* Gold */
-    }
-    .balloon:nth-child(4) {
-      left: 60%;
-      animation-duration: 6.5s;
-      background-color: #87cefa; /* Light Blue */
-    }
-    .balloon:nth-child(5) {
-      left: 75%;
-      animation-duration: 5.5s;
-      background-color: #90ee90; /* Light Green */
-    }
-    .balloon:nth-child(6) {
-      left: 90%;
-      animation-duration: 7s;
-      background-color: #fa8072; /* Salmon */
-    }
-
-    /* CONFETTI */
+    /********** CONFETTI **********/
     .confetti-container {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
@@ -169,20 +192,16 @@
       position: absolute;
       width: 10px;
       height: 10px;
-      background-color: red; /* Will be overridden with random colors */
+      background-color: red;
       opacity: 0.9;
       animation: fall linear forwards;
     }
     @keyframes fall {
-      0% {
-        transform: translateY(-100px) rotate(0deg);
-      }
-      100% {
-        transform: translateY(110vh) rotate(720deg);
-      }
+      0%   { transform: translateY(-100px) rotate(0deg); }
+      100% { transform: translateY(110vh) rotate(720deg); }
     }
 
-    /* SECOND BUTTON (HIDDEN AT FIRST) */
+    /********** SECOND BUTTON - BOUNCE IN **********/
     #surpriseBtn {
       display: none;
       font-size: 1.2rem;
@@ -195,42 +214,46 @@
       box-shadow: 0 4px 0 #d76c41;
       margin-top: 30px;
       transition: transform 0.2s, box-shadow 0.2s;
+      animation: bounceIn 1s ease forwards;
+    }
+    @keyframes bounceIn {
+      0%   { transform: scale(0); }
+      50%  { transform: scale(1.1); }
+      70%  { transform: scale(0.9); }
+      100% { transform: scale(1); }
     }
     #surpriseBtn:hover {
-      transform: translateY(-3px);
+      transform: translateY(-3px) scale(1.02);
       box-shadow: 0 6px 0 #d76c41;
     }
 
-    /* CSS CAKE (NO EXTERNAL IMAGE) */
+    /********** CAKE (FESTIVE) **********/
     #cake {
       margin: 30px auto;
       width: 150px;
       height: 150px;
       position: relative;
-      display: none; /* hidden initially */
+      display: none;
       animation: fadeIn 1s forwards;
     }
-    /* Plate */
     #cake .plate {
       width: 140px;
       height: 20px;
-      background: #C0C0C0; /* silver color */
+      background: #C0C0C0;
       border-radius: 10px;
       position: absolute;
       bottom: 0;
       left: 5px;
     }
-    /* Bottom cake layer */
     #cake .bottom-layer {
       width: 100px;
       height: 40px;
-      background: #d2691e; /* chocolate color */
+      background: #d2691e;
       position: absolute;
       bottom: 20px;
       left: 25px;
       border-radius: 5px 5px 0 0;
     }
-    /* Frosting top layer */
     #cake .frosting {
       width: 100px;
       height: 20px;
@@ -240,7 +263,6 @@
       left: 25px;
       border-radius: 5px 5px 10px 10px;
     }
-    /* Candle */
     #cake .candle {
       width: 4px;
       height: 30px;
@@ -261,31 +283,120 @@
       border-radius: 50%;
     }
 
-    /* INTERNSHIP LINK (HIDDEN INITIALLY) */
-    #internshipLink {
-      margin-top: 20px;
-      font-size: 1.4rem;
-      display: none;
+    /*************************************************************
+     *************** SERIOUS MODE WAVES BACKGROUND ***************
+     *************************************************************/
+    .wave1,
+    .wave2 {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      height: 50vh;
+      z-index: -1;
+      display: none; /* appear in serious mode only */
+      opacity: 0.7;
+      pointer-events: none;
     }
-    #internshipLink a {
-      color: blue;
+
+    /* Purple/blue wave shapes & animations for serious mode */
+    .wave1 {
+      background: linear-gradient(135deg, #23244D, #4B4C9A);
+      animation: waveSlide1 10s ease-in-out infinite alternate;
+      clip-path: url(#wave1clip); 
+    }
+    @keyframes waveSlide1 {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-20%); }
+    }
+
+    .wave2 {
+      background: linear-gradient(135deg, #2D2F71, #767DF2);
+      animation: waveSlide2 12s ease-in-out infinite alternate;
+      clip-path: url(#wave2clip);
+    }
+    @keyframes waveSlide2 {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-30%); }
+    }
+
+    /*************************************************************
+     *************** SERIOUS MODE MAIN CONTAINER *****************
+     *************************************************************/
+    #seriousContainer {
+      display: none;
+      text-align: center;
+      max-width: 800px;
+      margin: 70px auto;
+    }
+    @keyframes slideInUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to   { transform: translateY(0);     opacity: 1; }
+    }
+    /* Futuristic heading font in serious mode */
+    #seriousContainer h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+    #seriousContainer p {
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+    #seriousContainer ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    #seriousContainer a {
+      color: #00c8ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    #seriousContainer a:hover {
       text-decoration: underline;
     }
 
-    /* FADE IN ANIMATION FOR CAKE */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    /*************************************************************
+     *************** ANIMATED BAR CHART (DATA VIBE) **************
+     *************************************************************/
+    .chart {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      margin-top: 30px;
+      height: 150px;
+      width: 60%;
+      margin-left: auto;
+      margin-right: auto;
     }
-
+    .bar {
+      width: 10px;
+      background: #00c8ff;
+      margin: 0 5px;
+      animation: barAnim 3s ease-in-out infinite;
+    }
+    /* offset each bar so it pulses in a wave */
+    .bar:nth-child(1) { animation-delay: 0s; }
+    .bar:nth-child(2) { animation-delay: 0.3s; }
+    .bar:nth-child(3) { animation-delay: 0.6s; }
+    .bar:nth-child(4) { animation-delay: 0.9s; }
+    .bar:nth-child(5) { animation-delay: 1.2s; }
+    .bar:nth-child(6) { animation-delay: 1.5s; }
+    @keyframes barAnim {
+      0%   { height: 20px; }
+      50%  { height: 100%; }
+      100% { height: 20px; }
+    }
   </style>
 </head>
+
 <body>
 
-  <!-- OPTIONAL AUDIO (place your own MP3 file in the same folder and rename if needed) -->
+  <!-- Optional Audio (put birthdayMusic.mp3 in the same folder if you like) -->
   <audio id="birthdayMusic" src="birthdayMusic.mp3" preload="auto"></audio>
 
-  <!-- FLOATING BALLOONS -->
+  <!-- FESTIVE Balloons -->
   <div class="balloon"></div>
   <div class="balloon"></div>
   <div class="balloon"></div>
@@ -293,31 +404,97 @@
   <div class="balloon"></div>
   <div class="balloon"></div>
 
-  <!-- MAIN CONTENT -->
+  <!-- FESTIVE Sparkles -->
+  <div class="sparkle" style="left:5%; top:-20px; animation-delay:0s;"></div>
+  <div class="sparkle" style="left:15%; top:-40px; animation-delay:1s;"></div>
+  <div class="sparkle" style="left:25%; top:-10px; animation-delay:2s;"></div>
+  <div class="sparkle" style="left:40%; top:-60px; animation-delay:0.5s;"></div>
+  <div class="sparkle" style="left:55%; top:-20px; animation-delay:3s;"></div>
+  <div class="sparkle" style="left:70%; top:-30px; animation-delay:1.5s;"></div>
+  <div class="sparkle" style="left:85%; top:-50px; animation-delay:2.5s;"></div>
+  <div class="sparkle" style="left:95%; top:-25px; animation-delay:4s;"></div>
+
+  <!-- MAIN CONTENT (FESTIVE) -->
   <div class="content-container">
-    <!-- Hard-coded name -->
     <h1 id="birthdayHeading">Happy Birthday, FADWA!</h1>
 
     <button id="celebrateBtn">Celebrate</button>
+    
     <div id="hiddenMessage">Wishing you a day filled with joy and surprises, FADWA!</div>
 
-    <!-- Second button for extra surprise (hidden initially) -->
     <button id="surpriseBtn">Another Surprise?</button>
 
-    <!-- Surprise cake (using pure CSS) -->
+    <!-- The Cake (CSS-based) -->
     <div id="cake">
       <div class="plate"></div>
       <div class="bottom-layer"></div>
       <div class="frosting"></div>
       <div class="candle"></div>
     </div>
+  </div>
 
-    <!-- Internship link (hidden initially) -->
-    <div id="internshipLink">
-      Time to plan your future! Check out internships here:
-      <a href="https://www.linkedin.com/jobs/internships/" target="_blank">LinkedIn Internships</a>
+  <!-- SERIOUS MODE WAVES (Hidden initially) -->
+  <div class="wave1"></div>
+  <div class="wave2"></div>
+
+  <!-- SERIOUS CONTAINER (links + bar chart) -->
+  <div id="seriousContainer">
+    <h2>Time to plan your future, <strong>enough celebrating</strong>!</h2>
+    <p>Check out these resources:</p>
+    <ul>
+      <li>
+        <a href="https://www.linkedin.com/jobs/internships/" target="_blank">
+          Internships
+        </a>
+      </li>
+      <li>
+        <a href="https://www.coursera.org/learn/data-science" target="_blank">
+          Data Science Courses
+        </a>
+      </li>
+      <li>
+        <a href="https://www.coursera.org/learn/machine-learning" target="_blank">
+          Machine Learning Courses
+        </a>
+      </li>
+    </ul>
+
+    <!-- A small animated bar chart for a tech/data vibe -->
+    <div class="chart">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
     </div>
   </div>
+
+  <!-- SVG DEFS for wave clip-paths (for wave1, wave2) -->
+  <svg width="0" height="0">
+    <defs>
+      <clipPath id="wave1clip" clipPathUnits="objectBoundingBox">
+        <path d="
+          M 0,0.6 
+          C 0.25,0.58 0.25,0.9 0.5,0.9
+          C 0.75,0.9 0.75,0.58 1,0.6
+          L 1,1 
+          L 0,1 
+          Z
+        " />
+      </clipPath>
+      <clipPath id="wave2clip" clipPathUnits="objectBoundingBox">
+        <path d="
+          M 0,0.55
+          C 0.25,0.57 0.25,0.75 0.5,0.72
+          C 0.75,0.70 0.75,0.57 1,0.55
+          L 1,1
+          L 0,1
+          Z
+        " />
+      </clipPath>
+    </defs>
+  </svg>
 
   <script>
     const celebrateBtn = document.getElementById("celebrateBtn");
@@ -325,17 +502,15 @@
     const birthdayMusic = document.getElementById("birthdayMusic");
     const surpriseBtn = document.getElementById("surpriseBtn");
     const cake = document.getElementById("cake");
-    const internshipLink = document.getElementById("internshipLink");
 
     // Initially hide certain elements
     hiddenMessage.style.display = "none";
     surpriseBtn.style.display = "none";
     cake.style.display = "none";
-    internshipLink.style.display = "none";
 
     // 1) On "Celebrate" button click
     celebrateBtn.addEventListener("click", () => {
-      // Show hidden message
+      // Reveal hidden message
       hiddenMessage.style.display = "block";
 
       // Play music (if an MP3 file is provided)
@@ -346,24 +521,28 @@
       // Launch confetti
       launchConfetti();
 
-      // Show the "Another Surprise?" button after a moment
+      // Show "Another Surprise?" after a short delay
       setTimeout(() => {
         surpriseBtn.style.display = "inline-block";
+        surpriseBtn.style.animation = "bounceIn 1s ease forwards";
       }, 1000);
     });
 
-    // 2) On "Another Surprise?" => show the cake, then after 5s => hide it and show internship link
+    // 2) On "Another Surprise?" => Show the cake, then after 8s => serious mode
     surpriseBtn.addEventListener("click", () => {
       cake.style.display = "block";
+      surpriseBtn.style.display = "none"; // prevent repeated clicks
 
-      // Hide the second button to prevent repeated clicks
-      surpriseBtn.style.display = "none";
-
-      // After 5 seconds, hide the cake and show the internship link
       setTimeout(() => {
+        // Hide cake, stop music, switch to serious mode
         cake.style.display = "none";
-        internshipLink.style.display = "block";
-      }, 5000);
+        if (birthdayMusic) {
+          birthdayMusic.pause();
+          birthdayMusic.currentTime = 0;
+        }
+
+        document.body.classList.add("serious-mode");
+      }, 8000); 
     });
 
     // CONFETTI FUNCTION
